@@ -9,9 +9,56 @@ const Signup = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [retypePassword, setretypePassword] = useState('');
+  const [errorMessage, seterrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState('');
 
   const registerUser = () => {
     //TODO: firebase register logic
+    if (email === '' && password === '') {
+      Alert.alert('Enter details to signup!');
+    } else if (password !== retypePassword) {
+      Alert.alert('Password does not match');
+    } else {
+      setIsLoading(true);
+      firebase.default
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(res => {
+          res.user.updateProfile({
+            displayName: displayName,
+          });
+
+          res.user
+            .sendEmailVerification()
+            .then(() => {
+              Alert.alert(
+                'Success',
+                'Please check your email and activate your account',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      props.navigation.navigate('Login');
+                    },
+                  },
+                ],
+              );
+              setIsLoading(false);
+              setDisplayName('');
+              setEmail('');
+              setPassword('');
+              seterrorMessage('');
+            })
+            .catch(error => {
+              seterrorMessage(error.message);
+              setIsLoading(false);
+            });
+        })
+        .catch(error => {
+          seterrorMessage(error.message);
+          setIsLoading(false);
+        });
+    }
   };
   return (
     <View style={styles.container}>
