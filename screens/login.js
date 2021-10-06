@@ -5,12 +5,14 @@ import {
   Text,
   View,
   Alert,
+  ActivityIndicator,
   TouchableOpacity,
   Image,
 } from 'react-native';
 import firebase from '../database/firebase';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
+//import SocialButton from "../components/SocialButton";
 
 const Login = props => {
   const [email, setEmail] = useState('');
@@ -50,7 +52,6 @@ const Login = props => {
           }
 
           setIsLoading(false);
-
           setEmail('');
           setPassword('');
           seterrorMessage('');
@@ -64,7 +65,6 @@ const Login = props => {
 
   return (
     <View style={styles.container}>
-
       <View style={{alignItems: 'center', marginBottom: 20}}>
         <Image
           style={{
@@ -81,7 +81,6 @@ const Login = props => {
         value={email}
         onChangeText={val => setEmail(val)}
       />
-
       <FormInput
         placeholder="Password"
         iconType="lock"
@@ -90,7 +89,6 @@ const Login = props => {
         maxLength={15}
         secureTextEntry={true}
       />
-
       {errorMessage !== '' && (
         <View>
           <Text style={{color: 'red'}}>{errorMessage}</Text>
@@ -98,7 +96,6 @@ const Login = props => {
       )}
 
       <FormButton buttonTitle="Login" onPress={userLogin} />
-      
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
           style={styles.forgotButton}
@@ -107,24 +104,19 @@ const Login = props => {
               Alert.alert('Error', 'Please enter email to proceed.');
               return;
             }
-
             firebase.default
               .auth()
               .sendPasswordResetEmail(email)
-              .then(
-                (res) => {
-                  Alert.alert(
-                    'Success',
-                    'Please check your email for further steps.',
-                  );
-                  setEmail('');
-                }
-              )
-              .catch(
-                (error) => {
-                  Alert.alert('Error', error.message);
-                }
-              );
+              .then(res => {
+                Alert.alert(
+                  'Success',
+                  'Please check your email for further step.',
+                );
+                setEmail('');
+              })
+              .catch(error => {
+                Alert.alert('Error', error.message);
+              });
           }}>
           <Text style={styles.forgotButton}>Forgot Password?</Text>
         </TouchableOpacity>
@@ -135,6 +127,25 @@ const Login = props => {
           <Text style={styles.forgotButton}>Create Account</Text>
         </TouchableOpacity>
       </View>
+      {/* {Platform.OS === "android" ? (
+        <View>
+          <SocialButton
+            buttonTitle="Sign In with Facebook"
+            btnType="facebook"
+            color="#4867aa"
+            backgroundColor="#e6eaf4"
+            onPress={() => fbLogin()}
+          />
+
+          <SocialButton
+            buttonTitle="Sign In with Google"
+            btnType="google"
+            color="#de4d41"
+            backgroundColor="#f5e7ea"
+            //onPress={() => googleLogin()}
+          />
+        </View>
+      ) : null} */}
     </View>
   );
 };

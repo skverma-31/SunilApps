@@ -203,9 +203,17 @@ const Home = props => {
         <View
           style={{
             height: 180,
+            margin: 10,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            elevation: 5,
+            padding: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
           <Image
             resizeMode="contain"
+            style={{height: '100%', width: '100%'}}
             source={require('../../assets/vCard.jpg')}
           />
         </View>
@@ -222,5 +230,10 @@ const styles = StyleSheet.create({
   },
   _headerStyle: {
     marginTop: 5,
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    color: '#104f55',
   },
 });
