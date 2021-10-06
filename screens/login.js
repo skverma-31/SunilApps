@@ -103,7 +103,28 @@ const Login = props => {
         <TouchableOpacity
           style={styles.forgotButton}
           onPress={() => {
-            //TODO: forgot firebase logic
+            if (!email || email.trim().length === 0) {
+              Alert.alert('Error', 'Please enter email to proceed.');
+              return;
+            }
+
+            firebase.default
+              .auth()
+              .sendPasswordResetEmail(email)
+              .then(
+                (res) => {
+                  Alert.alert(
+                    'Success',
+                    'Please check your email for further steps.',
+                  );
+                  setEmail('');
+                }
+              )
+              .catch(
+                (error) => {
+                  Alert.alert('Error', error.message);
+                }
+              );
           }}>
           <Text style={styles.forgotButton}>Forgot Password?</Text>
         </TouchableOpacity>
@@ -122,6 +143,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 35,
+    backgroundColor: '#B8E0D2',
   },
 
   forgotButton: {
