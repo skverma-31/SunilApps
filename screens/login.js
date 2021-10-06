@@ -23,6 +23,12 @@ const Login = props => {
   const userLogin = () => {
     if (email === '' && password === '') {
       Alert.alert('Enter details to login!');
+    }
+    else if (email.trim()==="") {
+      Alert.alert('Enter details to signup!');
+    }
+    else if (password.trim()==="") {
+      Alert.alert('Enter details to signup!');
     } else {
       setIsLoading(true);
       firebase.default
@@ -62,6 +68,14 @@ const Login = props => {
         });
     }
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.preloader}>
+        <ActivityIndicator size="large" color="#9E9E9E" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -164,6 +178,16 @@ const styles = StyleSheet.create({
     color: '#3740FE',
     marginTop: 2,
     marginBottom: 15,
+  },
+  preloader: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 });
 
