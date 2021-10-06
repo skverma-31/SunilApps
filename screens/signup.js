@@ -1,6 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  ActivityIndicator,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import firebase from '../database/firebase';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
@@ -13,7 +22,6 @@ const Signup = props => {
   const [isLoading, setIsLoading] = useState('');
 
   const registerUser = () => {
-    //TODO: firebase register logic
     if (email === '' && password === '') {
       Alert.alert('Enter details to signup!');
     } else if (password !== retypePassword) {
@@ -60,6 +68,7 @@ const Signup = props => {
         });
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={{alignItems: 'center', marginBottom: 20}}>
@@ -104,6 +113,12 @@ const Signup = props => {
         secureTextEntry={true}
       />
 
+      {errorMessage !== '' && (
+        <View>
+          <Text style={{color: 'red'}}>{errorMessage}</Text>
+        </View>
+      )}
+
       <FormButton buttonTitle="Signup" onPress={registerUser} />
 
       <TouchableOpacity
@@ -121,6 +136,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 35,
+    backgroundColor: '#B8E0D2',
   },
   forgotButton: {
     color: '#3740FE',

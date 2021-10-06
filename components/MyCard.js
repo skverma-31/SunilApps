@@ -41,7 +41,14 @@ export default MyCard;
 
 const styles = StyleSheet.create({
   _card: {
+    height: WINDOW_WIDTH / 3.8,
     width: WINDOW_WIDTH / 3.8,
+    elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+    borderRadius: 5,
+    padding: 5,
   },
   _text: {textAlign: 'center'},
 });

@@ -9,6 +9,8 @@ import {View, Text, Image} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import firebase from '../../database/firebase';
+
 import Home from './Home';
 import About from './About';
 import ExcelFormula from './ExcelFormula';
@@ -19,6 +21,7 @@ import SalaryCalc from './SalaryCalc';
 
 const Drawer = createDrawerNavigator();
 const Dashboard = () => {
+  const displayName = firebase.auth().currentUser.displayName;
   return (
     <Drawer.Navigator
       drawerStyle={{backgroundColor: 'white'}}
@@ -44,7 +47,7 @@ const Dashboard = () => {
                   style={{
                     fontSize: 20,
                     fontWeight: 'bold',
-                  }}>{`\n${'displayName'}`}</Text>
+                  }}>{`\n${displayName}`}</Text>
               </Text>
             </View>
 
